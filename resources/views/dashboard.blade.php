@@ -327,26 +327,26 @@
                             Trending Upward
                         </div>
                     </div>
-                @else
+                @elseif($employee)
                     <!-- Employee Profile / Position Card -->
                     <div class="premium-card p-8 bg-slate-900 text-white border-none">
                         <h3 class="text-lg font-bold mb-4">My Position</h3>
                         <div class="space-y-4 text-xs font-semibold text-slate-350">
                             <div class="flex justify-between border-b border-slate-800 pb-2">
                                 <span class="text-slate-400">Department</span>
-                                <span class="text-slate-200">{{ $employee->department ?? 'N/A' }}</span>
+                                <span class="text-slate-200">{{ $employee?->department ?? 'N/A' }}</span>
                             </div>
                             <div class="flex justify-between border-b border-slate-800 pb-2">
                                 <span class="text-slate-400">Job Title</span>
-                                <span class="text-slate-200">{{ $employee->position ?? 'N/A' }}</span>
+                                <span class="text-slate-200">{{ $employee?->position ?? 'N/A' }}</span>
                             </div>
                             <div class="flex justify-between border-b border-slate-800 pb-2">
                                 <span class="text-slate-400">Hire Date</span>
-                                <span class="text-slate-200">{{ $employee->hire_date ? \Carbon\Carbon::parse($employee->hire_date)->format('M d, Y') : 'N/A' }}</span>
+                                <span class="text-slate-200">{{ $employee?->hire_date ? \Carbon\Carbon::parse($employee?->hire_date)->format('M d, Y') : 'N/A' }}</span>
                             </div>
                             <div class="flex justify-between">
                                 <span class="text-slate-400">Contact</span>
-                                <span class="text-slate-200">{{ $employee->phone ?? 'N/A' }}</span>
+                                <span class="text-slate-200">{{ $employee?->phone ?? 'N/A' }}</span>
                             </div>
                         </div>
                     </div>

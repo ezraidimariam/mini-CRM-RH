@@ -34,6 +34,7 @@ Route::middleware('auth')->group(function () {
     
     Route::delete('/conges/{congeRequest}', [CongeController::class, 'cancel'])->name('conges.cancel');
 
+
     // Evaluation routes (Restricted to Admin and RH)
     Route::get('/evaluations', [EvaluationController::class, 'index'])->name('evaluations.index')->middleware('rh');
     Route::get('/evaluations/create/{employee?}', [EvaluationController::class, 'create'])->name('evaluations.create')->middleware('rh');
