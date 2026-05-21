@@ -120,7 +120,7 @@
                                 </td>
                                 <td class="px-8 py-6 text-right">
                                     @if($request->status === 'pending')
-                                        @if(auth()->user()->role === 'admin' || auth()->user()->role === 'rh')
+                                        @if(auth()->user()->role === 'rh')
                                             <!-- Approve Request -->
                                             <form action="{{ route('conges.approve', $request) }}" method="POST" class="inline">
                                                 @csrf
@@ -134,14 +134,14 @@
                                             <form action="{{ route('conges.reject', $request) }}" method="POST" class="inline">
                                                 @csrf
                                                 <input type="hidden" name="rejected_reason" id="reject-reason-{{ $request->id }}">
-                                                <button type="button" class="p-2 text-slate-400 hover:text-red-500 hover:bg-white rounded-xl transition-all shadow-hover" title="Reject Request" 
+                                                <button type="button" class="p-2 text-slate-400 hover:text-red-500 hover:bg-white rounded-xl transition-all shadow-hover" title="Reject Request"
                                                         onclick="let reason = prompt('Please enter the reason for rejection:'); if(reason) { document.getElementById('reject-reason-{{ $request->id }}').value = reason; this.form.submit(); }">
                                                     <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                                                     </svg>
                                                 </button>
                                             </form>
-                                        @else
+                                        @elseif(auth()->user()->role === 'employee' && $request->employee_id === auth()->user()->employee?->id)
                                             <form action="{{ route('conges.cancel', $request) }}" method="POST" class="inline">
                                                 @csrf
                                                 @method('DELETE')
@@ -151,6 +151,8 @@
                                                     </svg>
                                                 </button>
                                             </form>
+                                        @else
+                                            <span class="text-xs font-bold text-slate-300 italic">Awaiting RH action</span>
                                         @endif
                                     @else
                                         @if($request->status === 'rejected' && $request->rejected_reason)
