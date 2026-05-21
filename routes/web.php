@@ -27,11 +27,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/conges', [CongeController::class, 'index'])->name('conges.index');
     Route::get('/conges/create', [CongeController::class, 'create'])->name('conges.create');
     Route::post('/conges', [CongeController::class, 'store'])->name('conges.store');
-    
-    // Approval routes (Restricted to Admin and RH)
-    Route::post('/conges/{congeRequest}/approve', [CongeController::class, 'approve'])->name('conges.approve')->middleware('rh');
-    Route::post('/conges/{congeRequest}/reject', [CongeController::class, 'reject'])->name('conges.reject')->middleware('rh');
-    
+
+    // Approval routes (Restricted to RH only)
+    Route::post('/conges/{congeRequest}/approve', [CongeController::class, 'approve'])->name('conges.approve')->middleware('rh.only');
+    Route::post('/conges/{congeRequest}/reject', [CongeController::class, 'reject'])->name('conges.reject')->middleware('rh.only');
+
     Route::delete('/conges/{congeRequest}', [CongeController::class, 'cancel'])->name('conges.cancel');
 
 
