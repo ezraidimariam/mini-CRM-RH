@@ -1,145 +1,124 @@
 <x-app-layout>
-    <x-slot name="header">Add New Employee</x-slot>
+    <x-slot name="header">Personnel Integration</x-slot>
 
-    <div class="max-w-3xl">
-        <!-- Breadcrumb -->
-        <div class="mb-6">
-            <a href="{{ route('employees.index') }}" class="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium">
-                <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-                </svg>
-                Back to Employees
+    <div class="max-w-4xl mx-auto">
+        <!-- Back Navigation -->
+        <div class="mb-8">
+            <a href="{{ route('employees.index') }}" class="group inline-flex items-center gap-2 text-slate-500 hover:text-primary-600 font-bold transition-all">
+                <div class="p-2 bg-white rounded-xl shadow-sm border border-slate-100 group-hover:bg-primary-50 group-hover:border-primary-100 transition-all">
+                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                    </svg>
+                </div>
+                Directory
             </a>
         </div>
 
-        <!-- Form Card -->
-        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-8">
-            <h2 class="text-2xl font-bold text-slate-900 mb-8">Create New Employee</h2>
+        <!-- Form Architecture -->
+        <div class="premium-card p-10 animate-in fade-in slide-in-from-bottom-8 duration-700">
+            <div class="mb-12">
+                <h2 class="text-3xl font-extrabold text-slate-900 font-display mb-2">Create New Record</h2>
+                <p class="text-slate-500 font-medium">Register a new talent into the organizational ecosystem.</p>
+            </div>
 
-            <form method="POST" action="{{ route('employees.store') }}" enctype="multipart/form-data" class="space-y-8">
+            <form method="POST" action="{{ route('employees.store') }}" enctype="multipart/form-data" class="space-y-12">
                 @csrf
 
-                <!-- Personal Information Section -->
+                <!-- Section: Identity -->
                 <div>
-                    <h3 class="text-lg font-semibold text-slate-800 mb-4 pb-4 border-b border-slate-200">Personal Information</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <!-- First Name -->
-                        <div>
-                            <label class="block text-sm font-semibold text-slate-700 mb-2">First Name *</label>
-                            <input type="text" name="first_name" value="{{ old('first_name') }}" required
-                                class="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-slate-500 transition text-slate-900 placeholder:text-slate-400 @error('first_name') border-red-500 @enderror">
-                            @error('first_name')
-                                <p class="text-red-600 text-sm mt-2">{{ $message }}</p>
-                            @enderror
+                    <div class="flex items-center gap-3 mb-8">
+                        <div class="w-8 h-8 rounded-lg bg-primary-100 text-primary-600 flex items-center justify-center font-bold text-xs shadow-sm">01</div>
+                        <h3 class="text-xl font-bold text-slate-900 font-display uppercase tracking-widest text-sm">Personal Identity</h3>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="space-y-2">
+                            <x-input-label for="first_name" :value="__('First Name')" class="ml-1 text-xs font-bold uppercase tracking-wider text-slate-500" />
+                            <x-text-input id="first_name" name="first_name" type="text" class="w-full" :value="old('first_name')" required autofocus />
+                            <x-input-error class="mt-2" :messages="$errors->get('first_name')" />
                         </div>
 
-                        <!-- Last Name -->
-                        <div>
-                            <label class="block text-sm font-semibold text-slate-700 mb-2">Last Name *</label>
-                            <input type="text" name="last_name" value="{{ old('last_name') }}" required
-                                class="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-slate-500 transition text-slate-900 placeholder:text-slate-400 @error('last_name') border-red-500 @enderror">
-                            @error('last_name')
-                                <p class="text-red-600 text-sm mt-2">{{ $message }}</p>
-                            @enderror
+                        <div class="space-y-2">
+                            <x-input-label for="last_name" :value="__('Last Name')" class="ml-1 text-xs font-bold uppercase tracking-wider text-slate-500" />
+                            <x-text-input id="last_name" name="last_name" type="text" class="w-full" :value="old('last_name')" required />
+                            <x-input-error class="mt-2" :messages="$errors->get('last_name')" />
                         </div>
 
-                        <!-- Email -->
-                        <div>
-                            <label class="block text-sm font-semibold text-slate-700 mb-2">Email *</label>
-                            <input type="email" name="email" value="{{ old('email') }}" required
-                                class="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-slate-500 transition text-slate-900 placeholder:text-slate-400 @error('email') border-red-500 @enderror">
-                            @error('email')
-                                <p class="text-red-600 text-sm mt-2">{{ $message }}</p>
-                            @enderror
+                        <div class="space-y-2">
+                            <x-input-label for="email" :value="__('Corporate Email')" class="ml-1 text-xs font-bold uppercase tracking-wider text-slate-500" />
+                            <x-text-input id="email" name="email" type="email" class="w-full" :value="old('email')" required />
+                            <x-input-error class="mt-2" :messages="$errors->get('email')" />
                         </div>
 
-                        <!-- Phone -->
-                        <div>
-                            <label class="block text-sm font-semibold text-slate-700 mb-2">Phone</label>
-                            <input type="text" name="phone" value="{{ old('phone') }}"
-                                class="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-slate-500 transition text-slate-900 placeholder:text-slate-400">
-                            @error('phone')
-                                <p class="text-red-600 text-sm mt-2">{{ $message }}</p>
-                            @enderror
+                        <div class="space-y-2">
+                            <x-input-label for="phone" :value="__('Contact Number')" class="ml-1 text-xs font-bold uppercase tracking-wider text-slate-500" />
+                            <x-text-input id="phone" name="phone" type="text" class="w-full" :value="old('phone')" />
+                            <x-input-error class="mt-2" :messages="$errors->get('phone')" />
                         </div>
 
-                        <!-- Avatar -->
                         <div class="md:col-span-2">
-                            <label class="block text-sm font-semibold text-slate-700 mb-2">Profile Photo</label>
-                            <div class="flex items-center">
-                                <label class="w-full px-4 py-3 border-2 border-dashed border-slate-300 rounded-lg cursor-pointer hover:border-blue-500 transition bg-slate-50 hover:bg-blue-50">
-                                    <div class="flex items-center justify-center">
-                                        <svg class="h-6 w-6 text-slate-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                            <x-input-label :value="__('Profile Imagery')" class="ml-1 text-xs font-bold uppercase tracking-wider text-slate-500 mb-2" />
+                            <div class="group relative bg-slate-50 border-2 border-dashed border-slate-200 rounded-[2rem] p-8 text-center hover:bg-primary-50/50 hover:border-primary-300 transition-all cursor-pointer">
+                                <input type="file" name="avatar" id="avatar" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                                <div class="relative z-0">
+                                    <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-sm group-hover:scale-110 transition-transform text-slate-400 group-hover:text-primary-500">
+                                        <svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 00-2 2z"></path>
                                         </svg>
-                                        <span class="text-slate-600">Click to upload photo</span>
                                     </div>
-                                    <input type="file" name="avatar" accept="image/*" class="hidden">
-                                </label>
+                                    <p class="text-sm font-bold text-slate-900">Drag imagery here or click to browse</p>
+                                    <p class="text-xs text-slate-500 mt-1 font-medium italic">Supports .jpg, .png (Max. 2MB)</p>
+                                </div>
                             </div>
-                            @error('avatar')
-                                <p class="text-red-600 text-sm mt-2">{{ $message }}</p>
-                            @enderror
+                            <x-input-error class="mt-2" :messages="$errors->get('avatar')" />
                         </div>
                     </div>
                 </div>
 
-                <!-- Job Information Section -->
-                <div>
-                    <h3 class="text-lg font-semibold text-slate-800 mb-4 pb-4 border-b border-slate-200">Job Information</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <!-- Department -->
-                        <div>
-                            <label class="block text-sm font-semibold text-slate-700 mb-2">Department *</label>
-                            <input type="text" name="department" value="{{ old('department') }}" required
-                                class="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-slate-500 transition text-slate-900 placeholder:text-slate-400 @error('department') border-red-500 @enderror">
-                            @error('department')
-                                <p class="text-red-600 text-sm mt-2">{{ $message }}</p>
-                            @enderror
+                <!-- Section: Assignment -->
+                <div class="pt-12 border-t border-slate-100">
+                    <div class="flex items-center gap-3 mb-8">
+                        <div class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold text-xs shadow-sm">02</div>
+                        <h3 class="text-xl font-bold text-slate-900 font-display uppercase tracking-widest text-sm">Deployment Details</h3>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="space-y-2">
+                            <x-input-label for="department" :value="__('Department')" class="ml-1 text-xs font-bold uppercase tracking-wider text-slate-500" />
+                            <x-text-input id="department" name="department" type="text" class="w-full" :value="old('department')" required />
+                            <x-input-error class="mt-2" :messages="$errors->get('department')" />
                         </div>
 
-                        <!-- Position -->
-                        <div>
-                            <label class="block text-sm font-semibold text-slate-700 mb-2">Position *</label>
-                            <input type="text" name="position" value="{{ old('position') }}" required
-                                class="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-slate-500 transition text-slate-900 placeholder:text-slate-400 @error('position') border-red-500 @enderror">
-                            @error('position')
-                                <p class="text-red-600 text-sm mt-2">{{ $message }}</p>
-                            @enderror
+                        <div class="space-y-2">
+                            <x-input-label for="position" :value="__('Position Title')" class="ml-1 text-xs font-bold uppercase tracking-wider text-slate-500" />
+                            <x-text-input id="position" name="position" type="text" class="w-full" :value="old('position')" required />
+                            <x-input-error class="mt-2" :messages="$errors->get('position')" />
                         </div>
 
-                        <!-- Hire Date -->
-                        <div>
-                            <label class="block text-sm font-semibold text-slate-700 mb-2">Hire Date *</label>
-                            <input type="date" name="hire_date" value="{{ old('hire_date') }}" required
-                                class="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-slate-500 transition text-slate-900 @error('hire_date') border-red-500 @enderror">
-                            @error('hire_date')
-                                <p class="text-red-600 text-sm mt-2">{{ $message }}</p>
-                            @enderror
+                        <div class="space-y-2">
+                            <x-input-label for="hire_date" :value="__('Onboarding Date')" class="ml-1 text-xs font-bold uppercase tracking-wider text-slate-500" />
+                            <x-text-input id="hire_date" name="hire_date" type="date" class="w-full" :value="old('hire_date')" required />
+                            <x-input-error class="mt-2" :messages="$errors->get('hire_date')" />
                         </div>
 
-                        <!-- Salary -->
-                        <div>
-                            <label class="block text-sm font-semibold text-slate-700 mb-2">Salary</label>
-                            <input type="number" name="salary" value="{{ old('salary') }}" step="0.01" min="0"
-                                class="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-slate-500 transition text-slate-900 placeholder:text-slate-400">
-                            @error('salary')
-                                <p class="text-red-600 text-sm mt-2">{{ $message }}</p>
-                            @enderror
+                        <div class="space-y-2">
+                            <x-input-label for="salary" :value="__('Annual Compensation')" class="ml-1 text-xs font-bold uppercase tracking-wider text-slate-500" />
+                            <div class="relative">
+                                <div class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold">$</div>
+                                <x-text-input id="salary" name="salary" type="number" step="0.01" class="w-full pl-10" :value="old('salary')" />
+                            </div>
+                            <x-input-error class="mt-2" :messages="$errors->get('salary')" />
                         </div>
                     </div>
                 </div>
 
-                <!-- Action Buttons -->
-                <div class="flex gap-4 pt-6 border-t border-slate-200">
-                    <button type="submit" class="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition duration-200 shadow-sm hover:shadow">
-                        <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                        </svg>
-                        Create Employee
-                    </button>
-                    <a href="{{ route('employees.index') }}" class="inline-flex items-center px-6 py-3 bg-slate-100 text-slate-700 font-semibold rounded-lg hover:bg-slate-200 transition">
-                        Cancel
+                <!-- Interaction Matrix -->
+                <div class="flex items-center justify-start gap-4 pt-12 border-t border-slate-100">
+                    <x-primary-button class="px-10 h-14 text-base shadow-xl shadow-primary-500/30">
+                        {{ __('Finalize Integration') }}
+                    </x-primary-button>
+                    <a href="{{ route('employees.index') }}" class="px-10 h-14 inline-flex items-center justify-center font-bold text-slate-500 hover:text-slate-900 transition-colors uppercase tracking-widest text-xs">
+                        {{ __('Discard') }}
                     </a>
                 </div>
             </form>

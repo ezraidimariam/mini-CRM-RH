@@ -5,8 +5,11 @@ namespace Database\Seeders;
 use App\Models\User;
 use App\Models\Employee;
 use App\Models\LeaveBalance;
+use App\Models\CongeRequest;
+use App\Models\Evaluation;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Carbon\Carbon;
 
 class DatabaseSeeder extends Seeder
 {
@@ -15,102 +18,102 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Create admin user
+        // 1. Create System Users
         $admin = User::create([
-            'name' => 'Admin User',
-            'email' => 'admin@example.com',
+            'name' => 'Administrator',
+            'email' => 'admin@admin.com',
             'password' => Hash::make('password'),
             'role' => 'admin',
         ]);
 
-        // Create RH user
         $rh = User::create([
-            'name' => 'RH User',
-            'email' => 'rh@example.com',
+            'name' => 'HR Manager',
+            'email' => 'rh@rh.com',
             'password' => Hash::make('password'),
             'role' => 'rh',
         ]);
 
-        // Create employee user
-        $employeeUser = User::create([
-            'name' => 'John Doe',
-            'email' => 'john@example.com',
-            'password' => Hash::make('password'),
-            'role' => 'rh',
-        ]);
-
-        // Create employees
-        $employees = [
-            [
-                'first_name' => 'John',
-                'last_name' => 'Doe',
-                'email' => 'john.doe@example.com',
-                'phone' => '123-456-7890',
-                'department' => 'Engineering',
-                'position' => 'Senior Developer',
-                'hire_date' => '2023-01-15',
-                'salary' => 75000,
-            ],
-            [
-                'first_name' => 'Jane',
-                'last_name' => 'Smith',
-                'email' => 'jane.smith@example.com',
-                'phone' => '234-567-8901',
-                'department' => 'Marketing',
-                'position' => 'Marketing Manager',
-                'hire_date' => '2022-06-01',
-                'salary' => 65000,
-            ],
-            [
-                'first_name' => 'Mike',
-                'last_name' => 'Johnson',
-                'email' => 'mike.johnson@example.com',
-                'phone' => '345-678-9012',
-                'department' => 'Engineering',
-                'position' => 'Junior Developer',
-                'hire_date' => '2024-01-10',
-                'salary' => 50000,
-            ],
-            [
-                'first_name' => 'Sarah',
-                'last_name' => 'Williams',
-                'email' => 'sarah.williams@example.com',
-                'phone' => '456-789-0123',
-                'department' => 'HR',
-                'position' => 'HR Specialist',
-                'hire_date' => '2023-03-20',
-                'salary' => 55000,
-            ],
-            [
-                'first_name' => 'David',
-                'last_name' => 'Brown',
-                'email' => 'david.brown@example.com',
-                'phone' => '567-890-1234',
-                'department' => 'Sales',
-                'position' => 'Sales Representative',
-                'hire_date' => '2023-07-01',
-                'salary' => 60000,
-            ],
+        // 2. Data Pools
+        $departments = ['Strategic Engineering', 'Market Intelligence', 'Creative Direction', 'Human Capital', 'Customer Success', 'Digital Operations'];
+        
+        $employeesData = [
+            ['first_name' => 'Alexander', 'last_name' => 'Vance', 'pos' => 'Principal Architect', 'dept' => 'Strategic Engineering', 'sal' => 95000],
+            ['first_name' => 'Elena', 'last_name' => 'Rodriguez', 'pos' => 'Growth Lead', 'dept' => 'Market Intelligence', 'sal' => 82000],
+            ['first_name' => 'Marcus', 'last_name' => 'Chen', 'pos' => 'Systems Analyst', 'dept' => 'Digital Operations', 'sal' => 74000],
+            ['first_name' => 'Sophia', 'last_name' => 'Bell', 'pos' => 'Visual Designer', 'dept' => 'Creative Direction', 'sal' => 68000],
+            ['first_name' => 'Julian', 'last_name' => 'Thorne', 'pos' => 'HR Specialist', 'dept' => 'Human Capital', 'sal' => 62000],
+            ['first_name' => 'Isabella', 'last_name' => 'Grant', 'pos' => 'Success Manager', 'dept' => 'Customer Success', 'sal' => 71000],
+            ['first_name' => 'Dominic', 'last_name' => 'Snyder', 'pos' => 'DevOps Engineer', 'dept' => 'Strategic Engineering', 'sal' => 88000],
+            ['first_name' => 'Nathan', 'last_name' => 'Drake', 'pos' => 'Backend Developer', 'dept' => 'Strategic Engineering', 'sal' => 79000],
+            ['first_name' => 'Lara', 'last_name' => 'Croft', 'pos' => 'Security Expert', 'dept' => 'Digital Operations', 'sal' => 92000],
+            ['first_name' => 'Arthur', 'last_name' => 'Morgan', 'pos' => 'Operations Lead', 'dept' => 'Digital Operations', 'sal' => 77000],
         ];
 
-        foreach ($employees as $employeeData) {
-            $employee = Employee::create($employeeData);
-            
-            // Create leave balance for current year
+        // 3. Process Employees
+        foreach ($employeesData as $index => $data) {
+            $email = strtolower($data['first_name'] . '.' . $data['last_name'] . '@company.io');
+            $employee = Employee::create([
+                'first_name' => $data['first_name'],
+                'last_name' => $data['last_name'],
+                'email' => $email,
+                'phone' => '+1 (555) ' . rand(100, 999) . '-' . rand(1000, 9999),
+                'department' => $data['dept'],
+                'position' => $data['pos'],
+                'hire_date' => Carbon::now()->subMonths(rand(6, 48))->toDateString(),
+                'salary' => $data['sal'],
+            ]);
+
+            // Create corresponding User account
+            User::create([
+                'name' => $data['first_name'] . ' ' . $data['last_name'],
+                'email' => $email,
+                'password' => Hash::make('password'),
+                'role' => 'employee',
+            ]);
+
+            // 4. Initialize Leave Balances
             LeaveBalance::create([
                 'employee_id' => $employee->id,
-                'year' => now()->year,
-                'accrued_days' => 18,
-                'used_days' => 0,
-                'available_days' => 18,
-                'last_accrual_date' => now()->toDateString(),
+                'year' => Carbon::now()->year,
+                'accrued_days' => 25,
+                'used_days' => rand(2, 10),
+                'available_days' => 15, // Simple math for seed data
+                'last_accrual_date' => Carbon::now()->startOfYear()->toDateString(),
             ]);
-        }
 
-        // Link the first employee to the employee user
-        $firstEmployee = Employee::first();
-        if ($firstEmployee) {
-            // Note: employee_id column doesn't exist in users table, skipping this link
+            // 5. Generate Past Leave Requests
+            $statuses = ['approved', 'rejected', 'pending'];
+            for ($i = 0; $i < rand(1, 3); $i++) {
+                $start = Carbon::now()->subDays(rand(1, 100));
+                $end = (clone $start)->addDays(rand(2, 5));
+                
+                CongeRequest::create([
+                    'employee_id' => $employee->id,
+                    'start_date' => $start->toDateString(),
+                    'end_date' => $end->toDateString(),
+                    'working_days' => rand(2, 5),
+                    'reason' => 'Restorative leave for mental health and personal equilibrium.',
+                    'status' => $statuses[array_rand($statuses)],
+                    'approved_by' => $rh->id,
+                    'decided_at' => Carbon::now()->subDays(rand(1, 5)),
+                ]);
+            }
+
+            // 6. Performance Scorecards
+            for ($year = Carbon::now()->year - 1; $year <= Carbon::now()->year; $year++) {
+                $score = rand(3, 5);
+                Evaluation::create([
+                    'employee_id' => $employee->id,
+                    'year' => $year,
+                    'global_score' => $score,
+                    'punctuality' => rand(3, 5),
+                    'skills' => rand(3, 5),
+                    'attitude' => rand(3, 5),
+                    'results' => rand(3, 5),
+                    'comment' => 'Exhibits high alignment with core organizational values and key performance indicators.',
+                    'evaluated_by' => $rh->id,
+                ]);
+            }
         }
     }
 }

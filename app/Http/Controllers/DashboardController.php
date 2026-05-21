@@ -10,6 +10,9 @@ class DashboardController extends Controller
 {
     public function index()
     {
+        $user = auth()->user();
+        $employee = $user->employee;
+
         $totalEmployees = Employee::active()->count();
         $pendingRequests = CongeRequest::pending()->count();
         $departmentStats = Employee::active()
@@ -24,11 +27,17 @@ class DashboardController extends Controller
             ['action' => 'Évaluation créée', 'time' => 'Hier'],
         ];
 
+        $myRequests = $employee ? $employee->congeRequests()->latest()->take(5)->get() : collect();
+        $myEvaluations = $employee ? $employee->evaluations()->latest()->take(5)->get() : collect();
+
         return view('dashboard', compact(
             'totalEmployees',
             'pendingRequests',
             'departmentStats',
-            'recentActivities'
+            'recentActivities',
+            'employee',
+            'myRequests',
+            'myEvaluations'
         ));
     }
 }

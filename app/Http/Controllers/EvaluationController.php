@@ -17,8 +17,13 @@ class EvaluationController extends Controller
         return view('evaluations.index', compact('evaluations'));
     }
 
-    public function create(Employee $employee)
+    public function create(Employee $employee = null)
     {
+        if (!$employee) {
+            $employees = Employee::orderBy('first_name')->get();
+            return view('evaluations.create', compact('employee', 'employees'));
+        }
+
         return view('evaluations.create', compact('employee'));
     }
 

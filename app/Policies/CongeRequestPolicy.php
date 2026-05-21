@@ -37,7 +37,7 @@ class CongeRequestPolicy
      */
     public function update(User $user, CongeRequest $congeRequest): bool
     {
-        return $user->role === 'admin' || $user->role === 'manager';
+        return $user->role === 'admin' || $user->role === 'rh';
     }
 
     /**
@@ -69,6 +69,6 @@ class CongeRequestPolicy
      */
     public function approve(User $user, CongeRequest $congeRequest): bool
     {
-        return $user->role === 'admin' || $user->role === 'manager';
+        return $user->role === 'admin' || $user->role === 'rh';
     }
 }

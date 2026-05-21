@@ -15,10 +15,18 @@ class CongeController extends Controller
 
     public function index()
     {
-        $requests = CongeRequest::with('employee', 'approvedBy')
-            ->where('employee_id', auth()->user()?->employee?->id ?? 0)
-            ->latest()
-            ->paginate(10);
+        $user = auth()->user();
+
+        if ($user->role === 'admin' || $user->role === 'rh') {
+            $requests = CongeRequest::with('employee', 'approvedBy')
+                ->latest()
+                ->paginate(10);
+        } else {
+            $requests = CongeRequest::with('employee', 'approvedBy')
+                ->where('employee_id', $user->employee?->id ?? 0)
+                ->latest()
+                ->paginate(10);
+        }
 
         return view('conges.index', compact('requests'));
     }
