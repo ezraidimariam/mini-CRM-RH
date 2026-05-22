@@ -33,6 +33,10 @@ class CongeController extends Controller
 
     public function create()
     {
+        if (auth()->user()->role === 'admin' || auth()->user()->role === 'rh') {
+            return redirect()->route('conges.index');
+        }
+
         return view('conges.create');
     }
 
