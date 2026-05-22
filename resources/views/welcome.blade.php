@@ -8,7 +8,7 @@
         <link rel="preconnect" href="https://fonts.bunny.net">
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans antialiased bg-[#fcfdfe] text-slate-900 selection:bg-primary-100 selection:text-primary-900">
+    <body class="font-sans antialiased bg-[#f5ede6] text-[#3e342a] selection:bg-primary-100 selection:text-primary-900">
         <div class="relative min-h-screen">
             <!-- Decorative Background -->
             <div class="absolute top-0 left-0 w-full h-full -z-10 overflow-hidden pointer-events-none">
@@ -17,7 +17,7 @@
             </div>
 
             <!-- Navigation -->
-            <nav class="sticky top-0 z-50 bg-white/70 backdrop-blur-xl border-b border-slate-100">
+            <nav class="sticky top-0 z-50 bg-[#f8efe3]/90 backdrop-blur-xl border-b border-[#dcc5b4]">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex justify-between h-20 items-center">
                         <div class="flex items-center group">

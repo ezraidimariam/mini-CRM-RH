@@ -1,52 +1,48 @@
 <x-app-layout>
-    <x-slot name="header">Account Convergence</x-slot>
+    <x-slot name="header">Profile Settings</x-slot>
 
-    <div class="max-w-4xl mx-auto space-y-10 animate-in fade-in slide-in-from-bottom-8 duration-700">
-        <!-- Identity Configuration -->
-        <div class="premium-card p-10 bg-white">
-            <div class="mb-8">
-                <h3 class="text-2xl font-black text-slate-900 font-display">Identity Resolution</h3>
-                <p class="text-xs font-black text-slate-400 uppercase tracking-widest mt-1">Configure your administrative profile parameters</p>
+    <div class="grid gap-6 xl:grid-cols-[280px_1fr]">
+        <aside class="surface-card p-6">
+            <div class="flex items-center gap-4">
+                <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-600 text-lg font-semibold text-white">
+                    {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+                </div>
+                <div>
+                    <p class="font-semibold text-slate-950">{{ auth()->user()->name }}</p>
+                    <p class="text-sm capitalize text-slate-500">{{ auth()->user()->role }}</p>
+                </div>
             </div>
-            <div class="max-w-2xl">
+            <div class="mt-6 space-y-2 text-sm">
+                <a href="#profile" class="block rounded-xl bg-blue-50 px-3 py-2 font-medium text-blue-700">Profile</a>
+                <a href="#password" class="block rounded-xl px-3 py-2 font-medium text-slate-600 hover:bg-slate-100">Password</a>
+                <a href="#danger" class="block rounded-xl px-3 py-2 font-medium text-rose-600 hover:bg-rose-50">Danger zone</a>
+            </div>
+        </aside>
+
+        <div class="space-y-6">
+            <section id="profile" class="surface-card p-6">
+                <div class="mb-6">
+                    <h2 class="text-lg font-semibold text-slate-950">Profile information</h2>
+                    <p class="mt-1 text-sm text-slate-500">Update your account name and email address.</p>
+                </div>
                 @include('profile.partials.update-profile-information-form')
-            </div>
-        </div>
+            </section>
 
-        <!-- Security Configuration -->
-        <div class="premium-card p-10 bg-white">
-            <div class="mb-8 flex items-center gap-4">
-                <div class="p-3 bg-amber-50 text-amber-600 rounded-2xl border border-amber-100">
-                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                    </svg>
+            <section id="password" class="surface-card p-6">
+                <div class="mb-6">
+                    <h2 class="text-lg font-semibold text-slate-950">Password</h2>
+                    <p class="mt-1 text-sm text-slate-500">Use a strong password to keep your workspace secure.</p>
                 </div>
-                <div>
-                    <h3 class="text-2xl font-black text-slate-900 font-display">Security Protocol</h3>
-                    <p class="text-xs font-black text-slate-400 uppercase tracking-widest mt-1">Rotate your access credentials</p>
-                </div>
-            </div>
-            <div class="max-w-2xl">
                 @include('profile.partials.update-password-form')
-            </div>
-        </div>
+            </section>
 
-        <!-- Danger Zone -->
-        <div class="premium-card p-10 bg-red-50/30 border-red-100/50">
-             <div class="mb-8 flex items-center gap-4">
-                <div class="p-3 bg-red-100 text-red-600 rounded-2xl border border-red-200">
-                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                    </svg>
+            <section id="danger" class="rounded-2xl border border-rose-200 bg-white p-6 shadow-sm">
+                <div class="mb-6">
+                    <h2 class="text-lg font-semibold text-rose-900">Danger zone</h2>
+                    <p class="mt-1 text-sm text-rose-600">Delete your account permanently.</p>
                 </div>
-                <div>
-                    <h3 class="text-2xl font-black text-red-900 font-display">Termination Node</h3>
-                    <p class="text-xs font-black text-red-700/50 uppercase tracking-widest mt-1">Permanent decommissioning of your instance</p>
-                </div>
-            </div>
-            <div class="max-w-2xl">
                 @include('profile.partials.delete-user-form')
-            </div>
+            </section>
         </div>
     </div>
 </x-app-layout>
